@@ -26,5 +26,51 @@
  * @returns {string} "weak", "medium", "strong", or "very strong"
  */
 export function checkPasswordStrength(password) {
-  // Your code here
+  var totalCriteriaFullfilled = 0;
+  if (typeof password !== "string" || password.length <= 0) {
+    return "weak";
+  }
+  if (password.length >= 8) {
+    totalCriteriaFullfilled++;
+  }
+  var lowerCasePresence = false;
+  var uppercasePresence = false;
+  for (var index = "a".charCodeAt(0); index <= "z".charCodeAt(0); index++) {
+    if (password.includes(String.fromCharCode(index))) {
+      lowerCasePresence = true;
+    }
+    if (password.includes(String.fromCharCode(index).toUpperCase())) {
+      uppercasePresence = true;
+    }
+  }
+  if (lowerCasePresence) {
+    totalCriteriaFullfilled++;
+  }
+  if (uppercasePresence) {
+    totalCriteriaFullfilled++;
+  }
+  var numberPresence = false;
+  for (var index = 0; index <= 9; index++) {
+    if (password.includes(index.toString())) {
+      numberPresence = true;
+    }
+  }
+  if (numberPresence) {
+    totalCriteriaFullfilled++;
+  }
+  var regxForSpecialChars = /[-!@#$%^&*()_+=\[\]{}|;:,.<>?]/;
+  if (regxForSpecialChars.test(password)) {
+    totalCriteriaFullfilled++;
+  }
+  if (totalCriteriaFullfilled <= 1) {
+    return "weak";
+  } else if (totalCriteriaFullfilled > 1 && totalCriteriaFullfilled <= 3) {
+    return "medium";
+  } else if (totalCriteriaFullfilled == 4) {
+    return "strong";
+  } else if (totalCriteriaFullfilled >= 5) {
+    return "very strong";
+  } else {
+    return "weak";
+  }
 }
